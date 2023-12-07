@@ -1,5 +1,5 @@
-import pool from '../config/postgres_conn.js';
-import queries from '../models/ticket_queries.js';
+//import pool from '../config/postgres_conn.js';
+//import queries from '../models/ticket_queries.js';
 
 import Request from 'tedious';
 import connection from '../config/tedious_conn.js';
@@ -20,6 +20,23 @@ export const addTicket = (req,res)=>{
         console.log("Ticket created", [requestedby,receiver,contents,notes,dept]);
         res.status(201).redirect("/Tickets");
     });
+
+
+    // tedious method
+
+    const request = new Request(tdticket_queries.addTicket, (err) => {
+        if (err) throw err;
+        console.log("Ticket created", [requestedby,receiver,contents,notes,dept]);
+        res.status(201).redirect("/Tickets");
+    })
+
+    request.addParameter('requestedby', TYPES.NVarChar, requestedby);
+    request.addParameter('receiver', TYPES.NVarChar, receiver);
+    request.addParameter('contents', TYPES.NVarChar, contents);
+    request.addParameter('notes', TYPES.NVarChar, notes);
+    request.addParameter('dept', TYPES.Int, dept);
+
+    connection.execSql(request);
 };
 //READ
 //ticket index
@@ -106,6 +123,11 @@ export const deleteTicket = (req,res)=>{
             })
         }
     })
+
+    // tedious method
+
+    
+
 };
 
 

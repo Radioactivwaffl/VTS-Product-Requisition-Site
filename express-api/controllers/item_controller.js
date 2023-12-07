@@ -1,7 +1,7 @@
 // const pool = require('../config/postgres_conn.js');
 // const queries = require("../models/queries");
-import pool from '../config/postgres_conn.js';
-import queries from '../models/item_queries.js';
+//import pool from '../config/postgres_conn.js';
+//import queries from '../models/item_queries.js';
 
 import Request from 'tedious';
 import connection from '../config/tedious_conn.js';
