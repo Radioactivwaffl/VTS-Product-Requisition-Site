@@ -70,6 +70,17 @@ export const modifyTicket = (req,res)=>{
         // res.status(200).json(results.rows);
         res.status(200).render('../views/vtsUpdateTicket', { data: results.rows[0] });
     })
+
+    const request = new Request(tdticket_queries.getTicketByID, (err) => {
+        if (err) throw err;
+        const outputParamValue = request.parameters.OutputParam.value;
+        res.status(200).render('../views/vtsUpdateTicket', { outputParamValue });
+    })
+
+    request.addParameter('id', TYPES.Int, id);
+    request.addOutputParameter('id', TYPES.int);
+
+    connection.execSql(request);
 };
 //update action
 export const updateTicket = (req,res)=>{

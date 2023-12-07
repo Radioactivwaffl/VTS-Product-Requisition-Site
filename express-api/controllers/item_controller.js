@@ -15,11 +15,11 @@ import tdqueries from '../models/tditem_queries.js';
 // }
 
 export const getItems = (req,res)=>{
-    pool.query(queries.getItems,(error, results)=>{
-        if (error) throw error;
-        // res.status(200).json(results.rows);
-        res.status(200).render('../views/vtsItemPage01', { data: results.rows });
-    })
+//    pool.query(queries.getItems,(error, results)=>{
+//        if (error) throw error;
+//        // res.status(200).json(results.rows);
+//        res.status(200).render('../views/vtsItemPage01', { data: results.rows });
+//    })
 
     // tedious method
 
@@ -31,7 +31,7 @@ export const getItems = (req,res)=>{
 };
 
 export const getItemCat = (req,res)=>{
-    res.status(200).render('../views/categorySelect');
+//    res.status(200).render('../views/categorySelect');
 
     // tedious method
 
@@ -43,12 +43,12 @@ export const getItemCat = (req,res)=>{
 };
 
 export const getComputers = (req,res)=>{
-    pool.query(queries.getComputers,(error, results)=>{
-        if (error) throw error;
-        // res.status(200).json(results.rows);
-        res.status(200).render('../views/itemIndexComputer', { data: results.rows });
-
-    })
+//    pool.query(queries.getComputers,(error, results)=>{
+//        if (error) throw error;
+//        // res.status(200).json(results.rows);
+//        res.status(200).render('../views/itemIndexComputer', { data: results.rows });
+//
+//    })
 
     // tedious method
 
@@ -59,11 +59,11 @@ export const getComputers = (req,res)=>{
     connection.executeSql(request);
 };
 export const getDocks = (req,res)=>{
-    pool.query(queries.getDocks,(error, results)=>{
-        if (error) throw error;
-        // res.status(200).json(results.rows);
-        res.status(200).render('../views/itemIndexDock', { data: results.rows });
-    })
+//    pool.query(queries.getDocks,(error, results)=>{
+//        if (error) throw error;
+//        // res.status(200).json(results.rows);
+//        res.status(200).render('../views/itemIndexDock', { data: results.rows });
+//    })
     
     // tedious method
 
@@ -74,11 +74,11 @@ export const getDocks = (req,res)=>{
     connection.executeSql(request);
 };
 export const getMonitors = (req,res)=>{
-    pool.query(queries.getMonitors,(error, results)=>{
-        if (error) throw error;
-        // res.status(200).json(results.rows);
-        res.status(200).render('../views/itemIndexMonitor', { data: results.rows });
-    })
+//    pool.query(queries.getMonitors,(error, results)=>{
+//        if (error) throw error;
+//        // res.status(200).json(results.rows);
+//        res.status(200).render('../views/itemIndexMonitor', { data: results.rows });
+//    })
     
     // tedious method
 
@@ -89,11 +89,11 @@ export const getMonitors = (req,res)=>{
     connection.executeSql(request);
 };
 export const getSoftware = (req,res)=>{
-    pool.query(queries.getSoftware,(error, results)=>{
-        if (error) throw error;
-        // res.status(200).json(results.rows);
-        res.status(200).render('../views/itemIndexSoftware', { data: results.rows });
-    })
+//    pool.query(queries.getSoftware,(error, results)=>{
+//        if (error) throw error;
+//        // res.status(200).json(results.rows);
+//        res.status(200).render('../views/itemIndexSoftware', { data: results.rows });
+//    })
     
     // tedious method
 
@@ -125,13 +125,13 @@ export const newItem = (req,res)=>{
 // };
 export const addItem = (req,res)=>{
     const {archetype, category, manufacturer, item_name, imagepath, price} = req.body;
-    pool.query(queries.addItem,[archetype, category, manufacturer, item_name, imagepath, price],(error, results)=>{
-        if (error) throw error;
-        // res.status(201).send("item created successfully");
-        console.log("item created");
-        res.status(201).redirect("/items");
-        // res.redirect('/items');
-    });
+//    pool.query(queries.addItem,[archetype, category, manufacturer, item_name, imagepath, price],(error, results)=>{
+//        if (error) throw error;
+//        // res.status(201).send("item created successfully");
+//        console.log("item created");
+//        res.status(201).redirect("/items");
+//        // res.redirect('/items');
+//    });
 
     // tedious method
 
@@ -143,6 +143,13 @@ export const addItem = (req,res)=>{
     });
 
     request.addParameter('archetype', TYPES.NVarChar, archetype);
+    request.addParameter('category', TYPES.NVarChar, category);
+    request.addParameter('manufacturer', TYPES.NVarChar, manufacturer);
+    request.addParameter('item_name', TYPES.NVarChar, item_name);
+    request.addParameter('imagepath', TYPES.NVarChar, imagepath);
+    request.addParameter('price', TYPES.double, price);
+
+    connection.executeSql(request);
     
     // res.send(`Received form data: Param1 - ${archetype}, Param2 - ${category}`);
 };
@@ -184,19 +191,30 @@ export const addItem = (req,res)=>{
 
 export const deleteItem = (req,res)=>{
     const id = parseInt(req.body.id);
-    // res.send(`item ${id}`);
-    // res.send(req.body.id);
-    pool.query(queries.getItem,[id],(error, results)=>{
-        if (!results.rows.length){
-            res.send(`student ${id} doesn't exist`);
-        }else{
-            pool.query(queries.deleteItem,[id],(error, results)=>{
-                if (error) throw error;
-                res.status(200).redirect("/items");
-            })
-        }
+//    // res.send(`item ${id}`);
+//    // res.send(req.body.id);
+//    pool.query(queries.getItem,[id],(error, results)=>{
+//        if (!results.rows.length){
+//            res.send(`student ${id} doesn't exist`);
+//        }else{
+//            pool.query(queries.deleteItem,[id],(error, results)=>{
+//                if (error) throw error;
+//                res.status(200).redirect("/items");
+//            })
+//        }
+//
+//    })
 
-    })
+    // tedious method
+
+    const request = new Request(tdqueries.deleteItem, (err) => {
+        if (err) throw err;
+        res.status(200).redirect("/items");
+    });
+
+    request.addParameter('id', TYPES.Int, id);
+
+    connection.execSql(request);
 };
 
 // export const deleteItem = (req,res)=>{
